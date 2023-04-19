@@ -1,7 +1,18 @@
 import css from './Filter.module.css';
-import PropTypes from 'prop-types';
 
-export const Filter = ({ filter, getInput }) => {
+// ^ Рефакторінг у Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { filterInStateContacts } from 'store/filterSlice';
+
+export const Filter = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(store => store.storeFilter.stateFilter);
+
+  // Отримання даних з поля input у компоненті Filter
+  const getInput = ({ target: { value } }) => {
+    dispatch(filterInStateContacts({ value }));
+  };
+
   return (
     <div className={css.inputWrapper}>
       <label htmlFor="searchInput">Find contacts by name</label>
@@ -14,9 +25,4 @@ export const Filter = ({ filter, getInput }) => {
       />
     </div>
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  getInput: PropTypes.func.isRequired,
 };

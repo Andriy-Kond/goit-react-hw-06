@@ -1,42 +1,35 @@
-import PropTypes from 'prop-types';
 import css from './Contacts.module.css';
 
-function MarkupContacts({ name, number, id, deleteContact }) {
-  return (
-    <li className={css.listItem}>
-      {name}: {number}
-      <button className={css.deleteBtn} onClick={() => deleteContact(id)}>
-        Delete
-      </button>
-    </li>
-  );
-}
+// ^ Рефакторінг у Redux
+import { useSelector } from 'react-redux';
+import { MarkupContacts } from './MarkupContacts';
 
-export const Contacts = ({ contacts, deleteContact }) => {
+export const Contacts = () => {
+  // Забираю лист контактів зі store Redux:
+  // useSelector приймає функцію, яка приймає увесь store з Redux
+  const contacts = useSelector(store => store.storeContacts.stateContacts);
+  const filter = useSelector(store => store.storeFilter.stateFilter);
+
+  // Фільтрація контактів:
+  const filteredContacts = filter
+    ? contacts.filter(({ name }) =>
+        name.toLowerCase().includes(filter.toLowerCase())
+      )
+    : contacts;
+
+  // Рендер відфільтрованих контактів:
   return (
     <ul className={css.list}>
-      {contacts.map(({ name, number, id }) => {
+      {filteredContacts.map(({ name, number, id }) => {
         return (
           <MarkupContacts
             key={id}
             name={name}
             number={number}
             id={id}
-            deleteContact={deleteContact}
           ></MarkupContacts>
         );
       })}
     </ul>
   );
-};
-
-Contacts.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  deleteContact: PropTypes.func.isRequired,
 };
