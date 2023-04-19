@@ -8,10 +8,12 @@ const phoneSlice = createSlice({
   },
 
   reducers: {
+    // Додавання контакту:
     addInStateContact(state, action) {
       state.stateContacts.push(action.payload);
     },
 
+    // Видалення контакту:
     deleteInStateContact(state, action) {
       state.stateContacts = state.stateContacts.filter(
         contact => contact.id !== action.payload.id

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import css from './Contacts.module.css';
 
 // ^ Рефакторінг у Redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteInStateContact } from 'store/phoneBookSlice';
 
 export function MarkupContacts({ name, number, id }) {

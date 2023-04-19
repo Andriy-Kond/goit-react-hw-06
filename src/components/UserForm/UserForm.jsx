@@ -38,7 +38,7 @@ export const UserForm = () => {
       const isCreated = dispatch(
         addInStateContact({
           name,
-          number,
+          number: Number(number),
           id: nanoid(),
         })
       );
