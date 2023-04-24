@@ -13,15 +13,15 @@ export const UserForm = () => {
   const contacts = useSelector(store => store.storeContacts.stateContacts);
 
   // Локальні стейти немає сенсу переносити у глобальний Redux:
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userNumber, setUserNumber] = useState('');
 
   // Записую дані полів інпут у відповідні стейти
   const getInput = ({ target: { name, value } }) => {
     if (name === 'name') {
-      setName(value);
+      setUserName(value);
     } else {
-      setNumber(value);
+      setUserNumber(value);
     }
   };
 
@@ -29,24 +29,26 @@ export const UserForm = () => {
   const setContact = e => {
     e.preventDefault();
 
-    const isExist = contacts.find(contact => contact.name === name);
+    // Перевірка чи є вже такий контакт:
+    const isExist = contacts.find(contact => contact.name === userName);
 
     if (isExist) {
       // alert працює як return
-      alert(`${name} is already in contacts`);
+      alert(`${userName} is already in contacts`);
     } else {
+      // спроба створити об'єкт:
       const isCreated = dispatch(
         addInStateContact({
-          name,
-          number: Number(number),
+          userName,
+          number: Number(userNumber), // інакше записується як рядок
           id: nanoid(),
         })
       );
 
       // Якщо новий об'єкт створений успішно, то обнуляємо поля інпутів у формі
       if (isCreated) {
-        setName('');
-        setNumber('');
+        setUserName('');
+        setUserNumber('');
       }
     }
   };
@@ -68,7 +70,7 @@ export const UserForm = () => {
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
             onChange={getInput}
-            value={name}
+            value={userName}
           />
         </div>
 
@@ -80,7 +82,7 @@ export const UserForm = () => {
             className={css.formInput}
             id="number"
             onChange={getInput}
-            value={number}
+            value={userNumber}
             type="tel"
             name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"

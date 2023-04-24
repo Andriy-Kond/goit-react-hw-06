@@ -19,17 +19,20 @@ export const Contacts = () => {
 
   // Рендер відфільтрованих контактів:
   return (
-    <ul className={css.list}>
-      {filteredContacts.map(({ name, number, id }) => {
-        return (
-          <MarkupContacts
-            key={id}
-            name={name}
-            number={number}
-            id={id}
-          ></MarkupContacts>
-        );
-      })}
-    </ul>
+    // Щоби не було пустого ul:
+    filteredContacts.length !== 0 && (
+      <ul className={css.list}>
+        {filteredContacts.map(({ name, number, id }) => {
+          return (
+            <MarkupContacts
+              key={id}
+              name={name}
+              number={number}
+              id={id}
+            ></MarkupContacts>
+          );
+        })}
+      </ul>
+    )
   );
 };

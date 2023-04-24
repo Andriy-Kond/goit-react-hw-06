@@ -8,7 +8,7 @@ export const Filter = () => {
   const dispatch = useDispatch();
   const filter = useSelector(store => store.storeFilter.stateFilter);
 
-  // Отримання даних з поля input у компоненті Filter
+  // Отримання даних з поля input
   const getInput = ({ target: { value } }) => {
     dispatch(filterInStateContacts({ value }));
   };
