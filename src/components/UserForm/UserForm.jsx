@@ -39,7 +39,7 @@ export const UserForm = () => {
       // спроба створити об'єкт:
       const isCreated = dispatch(
         addInStateContact({
-          userName,
+          name: userName,
           number: Number(userNumber), // інакше записується як рядок
           id: nanoid(),
         })
